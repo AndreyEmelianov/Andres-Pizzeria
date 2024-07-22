@@ -2,6 +2,11 @@
   "name": "andres-pizza",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Andrey Emelianov",
+    "email": "a-emelianoff@mai.ru",
+    "url": "https://github.com/AndreyEmelianov"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
