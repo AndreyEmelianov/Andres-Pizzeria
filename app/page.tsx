@@ -1,57 +1,26 @@
 import { Container, Filters, ProductsGroupList, Title, TopBar } from '@/components/shared';
+import { prisma } from '@/prisma/prisma-client';
 
-const productsFake = [
-  {
-    id: 1,
-    name: 'Маргарита',
-    price: 370,
-    imageUrl: '/images/pizzas/margarita292x292.avif',
-    items: [{ price: 370 }],
-  },
-  {
-    id: 2,
-    name: 'Маргарита',
-    price: 370,
-    imageUrl: '/images/pizzas/margarita292x292.avif',
-    items: [{ price: 370 }],
-  },
-  {
-    id: 3,
-    name: 'Маргарита',
-    price: 370,
-    imageUrl: '/images/pizzas/margarita292x292.avif',
-    items: [{ price: 370 }],
-  },
-  {
-    id: 4,
-    name: 'Маргарита',
-    price: 370,
-    imageUrl: '/images/pizzas/margarita292x292.avif',
-    items: [{ price: 370 }],
-  },
-  {
-    id: 5,
-    name: 'Маргарита',
-    price: 370,
-    imageUrl: '/images/pizzas/margarita292x292.avif',
-    items: [{ price: 370 }],
-  },
-  {
-    id: 6,
-    name: 'Маргарита',
-    price: 370,
-    imageUrl: '/images/pizzas/margarita292x292.avif',
-    items: [{ price: 370 }],
-  },
-];
+export default async function Home() {
+  const categories = await prisma.category.findMany({
+    include: {
+      products: {
+        include: {
+          ingredients: true,
+          items: true,
+        },
+      },
+    },
+  });
 
-export default function Home() {
+  const categoriesWithProducts = categories.filter((category) => category.products.length > 0);
+
   return (
     <>
       <Container className="mt-10">
         <Title text="Все пиццы" size="lg" className="font-extrabold" />
       </Container>
-      <TopBar />
+      <TopBar categories={categoriesWithProducts} />
 
       <Container className="pb-14 mt-10">
         <div className="flex gap-[80px]">
@@ -61,9 +30,17 @@ export default function Home() {
 
           <div className="flex-1">
             <div className="flex flex-col gap-16">
-              <ProductsGroupList title="Пиццы" products={productsFake} categoryId={1} />
-              <ProductsGroupList title="Комбо" products={productsFake} categoryId={2} />
-              <ProductsGroupList title="Закуски" products={productsFake} categoryId={3} />
+              {categories.map(
+                (category) =>
+                  category.products.length > 0 && (
+                    <ProductsGroupList
+                      key={category.id}
+                      title={category.name}
+                      categoryId={category.id}
+                      products={category.products}
+                    />
+                  ),
+              )}
             </div>
           </div>
         </div>
