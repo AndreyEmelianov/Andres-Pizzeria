@@ -1,3 +1,6 @@
+'use client';
+
+import { useIngredientsFilter } from '@/hooks/useIngredientsFilter';
 import { Input } from '../ui';
 import { CheckboxFiltersGroup } from './checkbox-filters-group';
 import { FilterCheckbox } from './filter-checkbox';
@@ -8,115 +11,21 @@ interface FiltersProps {
   className?: string;
 }
 
-const checkboxDefaultItems = [
-  {
-    text: 'Моццарелла',
-    value: '1',
-  },
-  {
-    text: 'Сырный соус',
-    value: '2',
-  },
-  {
-    text: 'Солёные огурчики',
-    value: '3',
-  },
-  {
-    text: 'Чеснок',
-    value: '4',
-  },
-  {
-    text: 'Красный лук',
-    value: '5',
-  },
-  {
-    text: 'Томаты',
-    value: '6',
-  },
-];
-const checkboxItems = [
-  {
-    text: 'Моццарелла',
-    value: '1',
-  },
-  {
-    text: 'Сырный соус',
-    value: '2',
-  },
-  {
-    text: 'Солёные огурчики',
-    value: '3',
-  },
-  {
-    text: 'Чеснок',
-    value: '4',
-  },
-  {
-    text: 'Красный лук',
-    value: '5',
-  },
-  {
-    text: 'Томаты',
-    value: '6',
-  },
-  {
-    text: 'Моццарелла',
-    value: '1',
-  },
-  {
-    text: 'Сырный соус',
-    value: '2',
-  },
-  {
-    text: 'Солёные огурчики',
-    value: '3',
-  },
-  {
-    text: 'Чеснок',
-    value: '4',
-  },
-  {
-    text: 'Красный лук',
-    value: '5',
-  },
-  {
-    text: 'Томаты',
-    value: '6',
-  },
-  {
-    text: 'Моццарелла',
-    value: '1',
-  },
-  {
-    text: 'Сырный соус',
-    value: '2',
-  },
-  {
-    text: 'Солёные огурчики',
-    value: '3',
-  },
-  {
-    text: 'Чеснок',
-    value: '4',
-  },
-  {
-    text: 'Красный лук',
-    value: '5',
-  },
-  {
-    text: 'Томаты',
-    value: '6',
-  },
-];
-
 export const Filters: React.FC<FiltersProps> = ({ className }) => {
+  const { ingredients, loading, selectedIds, onAddId } = useIngredientsFilter();
+
+  const defaultIngredients = ingredients.map((ingredients) => ({
+    value: String(ingredients.id),
+    text: ingredients.name,
+  }));
+
   return (
     <div className={className}>
       <Title text="Фильтрация" size="sm" className="mb-5 font-bold" />
 
       <div className="flex flex-col gap-4">
-        <FilterCheckbox text="Можно собирать" value="1" />
-        <FilterCheckbox text="Новинки" value="2" />
+        <FilterCheckbox name="can" text="Можно собирать" value="1" />
+        <FilterCheckbox name="new" text="Новинки" value="2" />
       </div>
 
       <div className="mt-5 border-y border-y-neutral-200 py-6 pb-7">
@@ -130,10 +39,14 @@ export const Filters: React.FC<FiltersProps> = ({ className }) => {
 
       <CheckboxFiltersGroup
         title="Ингредиенты"
+        name="Ingredients"
         limit={6}
-        defaultItems={checkboxDefaultItems}
-        items={checkboxItems}
+        defaultItems={defaultIngredients.slice(0, 6)}
+        items={defaultIngredients}
+        loading={loading}
+        selectedIds={selectedIds}
         className="mt-5"
+        onClickCheckbox={onAddId}
       />
     </div>
   );

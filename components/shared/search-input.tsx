@@ -3,10 +3,10 @@ import React from 'react';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { useClickAway, useDebounce } from 'react-use';
-import { Product } from '@prisma/client';
 
 import { cn } from '@/lib/utils';
 import { Api } from '@/services/api-client';
+import { Product } from '@prisma/client';
 
 interface SearchInputProps {
   className?: string;
@@ -24,8 +24,13 @@ export const SearchInput: React.FC<SearchInputProps> = ({ className }) => {
   });
 
   useDebounce(
-    () => {
-      Api.searchProducts.search(searchQuery).then((products) => setFoundProducts(products));
+    async () => {
+      try {
+        const response = await Api.searchProducts.search(searchQuery);
+        setFoundProducts(response);
+      } catch (error) {
+        console.log(error);
+      }
     },
     250,
     [searchQuery],
