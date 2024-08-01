@@ -58,7 +58,7 @@ html {
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
-  background: #dbdadd;
+  background: #f08f57;
   border-radius: 6px;
 }
 

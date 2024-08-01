@@ -1,8 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import { prisma } from '@/prisma/prisma-client';
-import { Container, ProductImage, Title } from '@/components/shared';
-import { ToggleVariants } from '@/components/shared/toggle-variants';
+import { Container, PizzaImage, Title, ToggleVariants } from '@/shared/components/shared';
 
 export default async function ProductPage({ params: { id } }: { params: { id: string } }) {
   const product = await prisma.product.findFirst({ where: { id: Number(id) } });
@@ -14,9 +13,9 @@ export default async function ProductPage({ params: { id } }: { params: { id: st
   return (
     <Container className="flex flex-col my-10">
       <div className="flex flex-1">
-        <ProductImage imageUrl={product.imageUrl} size={30} />
+        <PizzaImage imageUrl={product.imageUrl} size={30} />
 
-        <div className="w-[490px] bg-[#fcfcfc] p-7">
+        <div className="w-[490px] bg-[#fcf9f5] p-7">
           <Title text={product.name} size="md" className="font-extrabold mb-1" />
           <p className="text-gray-400">info about pizza</p>
           <ToggleVariants
