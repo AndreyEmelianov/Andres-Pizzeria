@@ -7,6 +7,7 @@ import { CartItemProps } from './cart-item/cart-item.types';
 interface CartDrawerItemProps extends CartItemProps {
   className?: string;
   onClickCountButton: (type: 'plus' | 'minus') => void;
+  onClickRemoveCartItem?: () => void;
 }
 
 export const CartDrawerItem: React.FC<CartDrawerItemProps> = ({
@@ -18,6 +19,7 @@ export const CartDrawerItem: React.FC<CartDrawerItemProps> = ({
   quantity,
   className,
   onClickCountButton,
+  onClickRemoveCartItem,
 }) => {
   return (
     <div className={cn('flex gap-6 p-5 bg-white', className)}>
@@ -30,7 +32,11 @@ export const CartDrawerItem: React.FC<CartDrawerItemProps> = ({
           <CartItem.CartItemCountButtons value={quantity} onClick={onClickCountButton} />
           <div className="flex items-center gap-3">
             <CartItem.CartItemPrice value={price} />
-            <Trash2Icon size={16} className="text-gray-400 cursor-pointer hover:text-red-600" />
+            <Trash2Icon
+              onClick={onClickRemoveCartItem}
+              size={16}
+              className="text-gray-400 cursor-pointer hover:text-red-600"
+            />
           </div>
         </div>
       </div>
