@@ -5,4 +5,5 @@ export interface CartItemProps {
   details: string;
   imageUrl: string;
   quantity: number;
+  disabled?: boolean;
 }

@@ -15,5 +15,11 @@ export async function GET(req: NextRequest) {
     take: 6,
   });
 
-  return NextResponse.json(products);
+  const filteredProducts = query
+    ? products
+        .filter((product) => product.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()))
+        .slice(0, 5)
+    : products.slice(0, 5);
+
+  return NextResponse.json(filteredProducts);
 }
