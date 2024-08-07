@@ -20,5 +20,5 @@ export const useAddQueryParamsFilters = (filters: Filters) => {
     });
 
     router.push(`?${urlQueryString}`, { scroll: false });
-  }, [filters, router]);
+  }, [filters]);
 };
