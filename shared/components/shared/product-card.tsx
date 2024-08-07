@@ -31,7 +31,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <Title text={name} size="sm" className="mb-1 mt-3 font-bold" />
         <p className="text-sm text-gray-400">
           {ingredients.map((ingredient) => ingredient.name).join(', ')}
-          {/* Увеличенная порция моцареллы, томаты, итальянские травы, фирменный томатный соус */}
         </p>
         <div className="flex justify-between items-center mt-4">
           <span className="text-[20px]">
