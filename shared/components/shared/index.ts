@@ -25,4 +25,6 @@ export { ProductForm } from './product-form';
 export { CardBlock } from './card-block';
 export { CheckoutInformationItem } from './checkout-information-item';
 export { CheckoutCartItem } from './checkout-cart-item';
+export { CheckoutCartItemSkeleton } from './checkout-cart-item-skeleton';
+export { CheckoutSidebar } from './checkout-sidebar';
 export * from './modals';

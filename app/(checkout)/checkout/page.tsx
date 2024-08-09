@@ -1,15 +1,24 @@
-import { ArrowRight, Package, Percent, Truck } from 'lucide-react';
-
+'use client';
 import {
   CardBlock,
   CheckoutCartItem,
-  CheckoutInformationItem,
+  CheckoutSidebar,
   Container,
   Title,
 } from '@/shared/components/shared';
-import { Button, Input, Textarea } from '@/shared/components/ui';
+import { Input, Textarea } from '@/shared/components/ui';
+import { useCart } from '@/shared/hooks';
+import { getCartItemDetails } from '@/shared/lib';
+import { PizzaSize, PizzaType } from '@/shared/constants/pizza';
 
 export default function CheckoutPage() {
+  const { items, totalAmount, updateItemQuantity, removeCartItem } = useCart();
+
+  const onClickCountButton = (id: number, quantity: number, type: 'plus' | 'minus') => {
+    const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
+    updateItemQuantity(id, newQuantity);
+  };
+
   return (
     <Container className="mt-10">
       <Title text="Оформление заказа" className="text-[36px] font-extrabold mb-8" />
@@ -18,14 +27,24 @@ export default function CheckoutPage() {
         <div className="flex flex-col flex-1 gap-10 mb-20">
           <CardBlock title="1. Корзина">
             <div className="flex flex-col gap-5">
-              <CheckoutCartItem
-                id={1}
-                imageUrl="/images/pizzas/cheesePizza233x233.webp"
-                name="Сырная"
-                details="Сырная пицца, много сыра, и ещё больше сырного сыра"
-                price={300}
-                quantity={2}
-              />
+              {items.map((item) => (
+                <CheckoutCartItem
+                  key={item.id}
+                  id={item.id}
+                  imageUrl={item.imageUrl}
+                  name={item.name}
+                  price={item.price}
+                  quantity={item.quantity}
+                  disabled={item.disabled}
+                  details={getCartItemDetails(
+                    item.ingredients,
+                    item.pizzaType as PizzaType,
+                    item.pizzaSize as PizzaSize,
+                  )}
+                  onClickCountButton={(type) => onClickCountButton(item.id, item.quantity, type)}
+                  onClickRemoveCartItem={() => removeCartItem(item.id)}
+                />
+              ))}
             </div>
           </CardBlock>
           <CardBlock title="2. Персональная информация">
@@ -45,45 +64,7 @@ export default function CheckoutPage() {
         </div>
 
         <div className="w-[450px]">
-          <CardBlock className="sticky top-4 p-6">
-            <div className="flex flex-col gap-1">
-              <span className="text-xl">Итого:</span>
-              <span className="text-[32px] font-extrabold">500 ₽</span>
-            </div>
-
-            <CheckoutInformationItem
-              title={
-                <div className="flex items-center">
-                  <Package size={20} className="mr-2 text-[#f1a146]" />
-                  Стоимость товаров:
-                </div>
-              }
-              value="500"
-            />
-            <CheckoutInformationItem
-              title={
-                <div className="flex items-center">
-                  <Percent size={20} className="mr-2 text-[#f1a146]" />
-                  Сервисный сбор:
-                </div>
-              }
-              value="500"
-            />
-            <CheckoutInformationItem
-              title={
-                <div className="flex items-center">
-                  <Truck size={20} className="mr-2 text-[#f1a146]" />
-                  Доставка:
-                </div>
-              }
-              value="300"
-            />
-
-            <Button type="submit" className="w-full mt-6 h-14 text-lg font-bold rounded-2xl">
-              Перейти к оплате
-              <ArrowRight className="w-5 ml-2" />
-            </Button>
-          </CardBlock>
+          <CheckoutSidebar totalAmount={totalAmount} />
         </div>
       </div>
     </Container>

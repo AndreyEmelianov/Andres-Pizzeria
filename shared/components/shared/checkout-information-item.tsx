@@ -2,7 +2,7 @@ import { cn } from '@/shared/lib/utils';
 
 interface CheckoutInformationItemProps {
   title?: React.ReactNode;
-  value?: string;
+  value?: number;
   className?: string;
 }
 
