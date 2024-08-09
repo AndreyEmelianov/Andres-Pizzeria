@@ -22,4 +22,7 @@ export { CartDrawerItem } from './cart-drawer-item';
 export { CountIconButton } from './count-icon-button';
 export { CountButtons } from './count-buttons';
 export { ProductForm } from './product-form';
+export { CardBlock } from './card-block';
+export { CheckoutInformationItem } from './checkout-information-item';
+export { CheckoutCartItem } from './checkout-cart-item';
 export * from './modals';

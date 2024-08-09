@@ -15,4 +15,5 @@ export {
   SheetTitle,
   SheetFooter,
 } from './sheet';
+export { Textarea } from './textarea';
 export { Skeleton } from './skeleton';
