@@ -1,15 +1,17 @@
+'use client';
 import { ArrowRight, Package, Percent, Truck } from 'lucide-react';
 
 import { CardBlock } from './card-block';
 import { CheckoutInformationItem } from './checkout-information-item';
 import { Button } from '../ui';
 import { calcTotalOrderPrice } from '@/shared/lib';
+import { useCart } from '@/shared/hooks';
 
-interface CheckoutSidebarProps {
-  totalAmount: number;
-}
+interface CheckoutSidebarProps {}
 
-export const CheckoutSidebar: React.FC<CheckoutSidebarProps> = ({ totalAmount }) => {
+export const CheckoutSidebar: React.FC<CheckoutSidebarProps> = () => {
+  const { totalAmount } = useCart();
+
   const { vatPrice, deliveryPrice, totalPrice } = calcTotalOrderPrice(totalAmount);
 
   return (
