@@ -2,7 +2,7 @@ import { cn } from '@/shared/lib/utils';
 
 interface CheckoutInformationItemProps {
   title?: React.ReactNode;
-  value?: number;
+  value?: React.ReactNode;
   className?: string;
 }
 
@@ -17,7 +17,7 @@ export const CheckoutInformationItem: React.FC<CheckoutInformationItemProps> = (
         {title}
         <div className="flex-1 relative -top-1 mx-2 border-b border-dashed border-b-neutral-200" />
       </span>
-      <span className="text-lg font-bold">{value} ₽</span>
+      <span className="text-lg font-bold">{value}</span>
     </div>
   );
 };

@@ -1,21 +1,43 @@
 'use client';
+import React from 'react';
+
 import { getCartItemDetails } from '@/shared/lib';
 import { CardBlock } from '../card-block';
 import { CheckoutCartItem } from '../checkout-cart-item';
 import { PizzaType, PizzaSize } from '@/shared/constants/pizza';
 import { useCart } from '@/shared/hooks';
+import { CheckoutCartItemSkeleton } from '../checkout-cart-item-skeleton';
 
 interface CheckoutCartProps {
   className?: string;
 }
 
 export const CheckoutCart: React.FC<CheckoutCartProps> = ({ className }) => {
-  const { items, updateItemQuantity, removeCartItem } = useCart();
+  const [loading, setLoading] = React.useState(true);
+  const { items, loading: cartLoading, updateItemQuantity, removeCartItem } = useCart();
 
   const onClickCountButton = (id: number, quantity: number, type: 'plus' | 'minus') => {
     const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
     updateItemQuantity(id, newQuantity);
   };
+
+  React.useEffect(() => {
+    if (!cartLoading) {
+      setLoading(false);
+    }
+  }, [cartLoading]);
+
+  if (loading) {
+    return (
+      <CardBlock title="1. Корзина" className={className}>
+        <div className="flex flex-col gap-5">
+          {[...Array(4)].map((_, index) => (
+            <CheckoutCartItemSkeleton key={index} />
+          ))}
+        </div>
+      </CardBlock>
+    );
+  }
 
   return (
     <CardBlock title="1. Корзина" className={className}>

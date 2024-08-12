@@ -3,14 +3,14 @@ import { ArrowRight, Package, Percent, Truck } from 'lucide-react';
 
 import { CardBlock } from './card-block';
 import { CheckoutInformationItem } from './checkout-information-item';
-import { Button } from '../ui';
+import { Button, Skeleton } from '../ui';
 import { calcTotalOrderPrice } from '@/shared/lib';
 import { useCart } from '@/shared/hooks';
 
 interface CheckoutSidebarProps {}
 
 export const CheckoutSidebar: React.FC<CheckoutSidebarProps> = () => {
-  const { totalAmount } = useCart();
+  const { totalAmount, loading } = useCart();
 
   const { vatPrice, deliveryPrice, totalPrice } = calcTotalOrderPrice(totalAmount);
 
@@ -18,7 +18,11 @@ export const CheckoutSidebar: React.FC<CheckoutSidebarProps> = () => {
     <CardBlock className="sticky top-4 p-6">
       <div className="flex flex-col gap-1">
         <span className="text-xl">Итого:</span>
-        <span className="text-[32px] font-extrabold">{totalPrice} ₽</span>
+        {loading ? (
+          <Skeleton className="w-[110px] h-12" />
+        ) : (
+          <span className="h-12 text-[32px] font-extrabold">{totalPrice} ₽</span>
+        )}
       </div>
 
       <CheckoutInformationItem
@@ -28,7 +32,7 @@ export const CheckoutSidebar: React.FC<CheckoutSidebarProps> = () => {
             Стоимость корзины:
           </div>
         }
-        value={totalAmount}
+        value={loading ? <Skeleton className="h-7 w-16" /> : `${totalAmount} ₽`}
       />
       <CheckoutInformationItem
         title={
@@ -37,7 +41,7 @@ export const CheckoutSidebar: React.FC<CheckoutSidebarProps> = () => {
             Сервисный сбор:
           </div>
         }
-        value={vatPrice}
+        value={loading ? <Skeleton className="h-7 w-16" /> : `${vatPrice} ₽`}
       />
       <CheckoutInformationItem
         title={
@@ -46,7 +50,7 @@ export const CheckoutSidebar: React.FC<CheckoutSidebarProps> = () => {
             Доставка:
           </div>
         }
-        value={deliveryPrice}
+        value={loading ? <Skeleton className="h-7 w-16" /> : `${deliveryPrice} ₽`}
       />
 
       <Button type="submit" className="w-full mt-6 h-14 text-lg font-bold rounded-2xl">
