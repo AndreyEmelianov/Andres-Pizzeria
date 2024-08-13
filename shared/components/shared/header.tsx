@@ -3,14 +3,15 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { User } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useSession, signIn } from 'next-auth/react';
 
 import { Container } from './container';
-import { Button } from '../ui';
 import { SearchInput } from './search-input';
 import { cn } from '@/shared/lib/utils';
 import { CartButton } from './cart-button';
+import { ProfileButton } from './profile-button';
+import { AuthModal } from './modals';
 
 interface HeaderProps {
   hasSearchInput?: boolean;
@@ -23,8 +24,12 @@ export const Header: React.FC<HeaderProps> = ({
   hasCart = true,
   className,
 }) => {
+  const [openAuthModal, setOpenAuthModal] = React.useState(false);
+
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const { data: session } = useSession();
 
   React.useEffect(() => {
     if (searchParams.has('paid')) {
@@ -56,10 +61,8 @@ export const Header: React.FC<HeaderProps> = ({
         )}
 
         <div className="flex items-center gap-3">
-          <Button variant="outline" className="flex items-center gap-1">
-            <User size={16} />
-            Войти
-          </Button>
+          <AuthModal open={openAuthModal} onModalClose={() => setOpenAuthModal(false)} />
+          <ProfileButton onClickSignIn={() => setOpenAuthModal(true)} />
           {hasCart && <CartButton />}
         </div>
       </Container>
