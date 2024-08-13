@@ -7,9 +7,12 @@ import { Button, Skeleton } from '../ui';
 import { calcTotalOrderPrice } from '@/shared/lib';
 import { useCart } from '@/shared/hooks';
 
-interface CheckoutSidebarProps {}
+interface CheckoutSidebarProps {
+  setTotalPrice: (totalPrice: number) => void;
+  submitting?: boolean;
+}
 
-export const CheckoutSidebar: React.FC<CheckoutSidebarProps> = () => {
+export const CheckoutSidebar: React.FC<CheckoutSidebarProps> = ({ submitting, setTotalPrice }) => {
   const { totalAmount, loading } = useCart();
 
   const { vatPrice, deliveryPrice, totalPrice } = calcTotalOrderPrice(totalAmount);
@@ -53,7 +56,11 @@ export const CheckoutSidebar: React.FC<CheckoutSidebarProps> = () => {
         value={loading ? <Skeleton className="h-7 w-16" /> : `${deliveryPrice} ₽`}
       />
 
-      <Button type="submit" className="w-full mt-6 h-14 text-lg font-bold rounded-2xl">
+      <Button
+        loading={submitting}
+        type="submit"
+        onClick={() => setTotalPrice(totalPrice)}
+        className="w-full mt-6 h-14 text-lg font-bold rounded-2xl">
         Перейти к оплате
         <ArrowRight className="w-5 ml-2" />
       </Button>

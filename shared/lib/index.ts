@@ -8,3 +8,5 @@ export { updateCartTotalAmount } from './update-cart-total-amount';
 export { findOrCreateCart } from './find-or-create-cart';
 export { findPizzas } from './find-pizzas';
 export { calcTotalOrderPrice } from './calc-total-order-price';
+export { sendEmail } from './send-email';
+export { createPayment } from './create-payment';

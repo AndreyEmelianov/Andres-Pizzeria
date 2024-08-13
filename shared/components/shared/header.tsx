@@ -1,6 +1,10 @@
+'use client';
+import React from 'react';
 import Image from 'next/image';
-import { User } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { User } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 import { Container } from './container';
 import { Button } from '../ui';
@@ -19,6 +23,19 @@ export const Header: React.FC<HeaderProps> = ({
   hasCart = true,
   className,
 }) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (searchParams.has('paid')) {
+      setTimeout(() => {
+        toast.success('Заказ успешно оплачен! Детальная информация отправлена на почту.');
+      }, 500);
+
+      router.push('/');
+    }
+  }, []);
+
   return (
     <header className={cn('border-b', className)}>
       <Container className="flex items-center justify-between py-8">

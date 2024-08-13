@@ -1,6 +1,8 @@
 'use client';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import React from 'react';
+import toast from 'react-hot-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 import {
   CheckoutAddressInfo,
@@ -12,8 +14,11 @@ import {
 } from '@/shared/components';
 import { CheckoutFormValues, checkoutFormSchema } from '@/shared/constants';
 import { useCart } from '@/shared/hooks';
+import { createOrder } from '@/app/actions';
 
 export default function CheckoutPage() {
+  const [submitting, setSubmitting] = React.useState(false);
+  const [totalPrice, setTotalPrice] = React.useState(0);
   const { loading } = useCart();
 
   const form = useForm<CheckoutFormValues>({
@@ -28,7 +33,26 @@ export default function CheckoutPage() {
     },
   });
 
-  const onSubmit: SubmitHandler<CheckoutFormValues> = (data) => {};
+  const onSubmit: SubmitHandler<CheckoutFormValues> = async (data) => {
+    try {
+      setSubmitting(true);
+      const paymentUrl = await createOrder(data, totalPrice);
+      setTotalPrice(0);
+      toast.error('Заказ успешно оформлен! 📝 Переход на оплату... ', {
+        icon: '✅',
+      });
+
+      if (paymentUrl!) {
+        location.href = paymentUrl;
+      }
+    } catch (error) {
+      console.error(error);
+      setSubmitting(false);
+      toast.error('Не удалось создать заказ', {
+        icon: '❌',
+      });
+    }
+  };
 
   return (
     <Container className="mt-10">
@@ -44,7 +68,7 @@ export default function CheckoutPage() {
             </div>
 
             <div className="w-[450px]">
-              <CheckoutSidebar />
+              <CheckoutSidebar submitting={submitting} setTotalPrice={setTotalPrice}/>
             </div>
           </div>
         </form>
