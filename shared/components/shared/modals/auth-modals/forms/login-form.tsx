@@ -51,7 +51,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
         <div className="flex items-center justify-between">
           <div className="mr-2">
             <Title text="Вход в аккаунт" size="md" className="font-bold" />
-            <p className="text-gray-400">Введите свои данные, чтобы войти в аккаунт</p>
+            <div className="flex gap-2 items-center justify-between">
+              <p className="text-gray-400">Введите свои данные, чтобы войти в аккаунт</p>
+              <img src="/logo.png" alt="logo" width={40} height={40} />
+            </div>
           </div>
         </div>
 
