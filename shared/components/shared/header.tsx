@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { useSession, signIn } from 'next-auth/react';
 
 import { Container } from './container';
 import { SearchInput } from './search-input';
@@ -29,15 +28,24 @@ export const Header: React.FC<HeaderProps> = ({
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const { data: session } = useSession();
-
   React.useEffect(() => {
-    if (searchParams.has('paid')) {
-      setTimeout(() => {
-        toast.success('Заказ успешно оплачен! Детальная информация отправлена на почту.');
-      }, 500);
+    let toastMessage = '';
 
-      router.push('/');
+    if (searchParams.has('paid')) {
+      toastMessage = 'Заказ успешно оплачен! Детальная информация отправлена на почту.';
+    }
+
+    if (searchParams.has('verified')) {
+      toastMessage = 'Почта успешно подтверждена!';
+    }
+
+    if (toastMessage) {
+      setTimeout(() => {
+        router.replace('/');
+        toast.success(toastMessage, {
+          duration: 2000,
+        });
+      }, 1000);
     }
   }, []);
 

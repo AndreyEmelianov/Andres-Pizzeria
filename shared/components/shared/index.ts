@@ -32,6 +32,8 @@ export { ErrorText } from './error-text';
 export { ClearButton } from './clear-button';
 export { ProfileButton } from './profile-button';
 export { Providers } from './providers';
+export { InfoBlock } from './info-block';
+export { ProfileForm } from './profile-form';
 export * from './modals';
 export * from './components-form';
 export * from './checkout';
