@@ -90,6 +90,61 @@ async function up() {
     },
   });
 
+  const pizza4 = await prisma.product.create({
+    data: {
+      name: 'Мясная с аджикой',
+      imageUrl: '/images/pizzas/adjicaPizza.webp',
+      categoryId: 1,
+      ingredients: {
+        connect: _ingredients.slice(0, 40),
+      },
+    },
+  });
+
+  const pizza5 = await prisma.product.create({
+    data: {
+      name: 'Бефстроганов',
+      imageUrl: '/images/pizzas/beefstroganof.webp',
+      categoryId: 1,
+      ingredients: {
+        connect: _ingredients.slice(0, 40),
+      },
+    },
+  });
+
+  const pizza6 = await prisma.product.create({
+    data: {
+      name: 'Двойной цыпленок',
+      imageUrl: '/images/pizzas/chickenCheesePizza.webp',
+      categoryId: 1,
+      ingredients: {
+        connect: _ingredients.slice(0, 40),
+      },
+    },
+  });
+
+  const pizza7 = await prisma.product.create({
+    data: {
+      name: 'Мясной микс с баварскими колбасками',
+      imageUrl: '/images/pizzas/meatMixPizza.webp',
+      categoryId: 1,
+      ingredients: {
+        connect: _ingredients.slice(0, 40),
+      },
+    },
+  });
+
+  const pizza8 = await prisma.product.create({
+    data: {
+      name: 'Креветки со сладким чили',
+      imageUrl: '/images/pizzas/shrimpsPizza.webp',
+      categoryId: 1,
+      ingredients: {
+        connect: _ingredients.slice(0, 40),
+      },
+    },
+  });
+
   await prisma.productItem.createMany({
     data: [
       generateProductItem({ productId: pizza1.id, pizzaType: 1, size: 20 }),
@@ -106,6 +161,33 @@ async function up() {
       generateProductItem({ productId: pizza3.id, pizzaType: 1, size: 20 }),
       generateProductItem({ productId: pizza3.id, pizzaType: 2, size: 30 }),
       generateProductItem({ productId: pizza3.id, pizzaType: 2, size: 40 }),
+
+      generateProductItem({ productId: pizza4.id, pizzaType: 1, size: 20 }),
+      generateProductItem({ productId: pizza4.id, pizzaType: 1, size: 30 }),
+      generateProductItem({ productId: pizza4.id, pizzaType: 2, size: 20 }),
+      generateProductItem({ productId: pizza4.id, pizzaType: 2, size: 30 }),
+
+      generateProductItem({ productId: pizza5.id, pizzaType: 1, size: 40 }),
+      generateProductItem({ productId: pizza5.id, pizzaType: 2, size: 40 }),
+
+      generateProductItem({ productId: pizza6.id, pizzaType: 1, size: 20 }),
+      generateProductItem({ productId: pizza6.id, pizzaType: 1, size: 30 }),
+      generateProductItem({ productId: pizza6.id, pizzaType: 1, size: 40 }),
+      generateProductItem({ productId: pizza6.id, pizzaType: 2, size: 20 }),
+      generateProductItem({ productId: pizza6.id, pizzaType: 2, size: 30 }),
+      generateProductItem({ productId: pizza6.id, pizzaType: 2, size: 40 }),
+
+      generateProductItem({ productId: pizza7.id, pizzaType: 1, size: 20 }),
+      generateProductItem({ productId: pizza7.id, pizzaType: 1, size: 30 }),
+      generateProductItem({ productId: pizza7.id, pizzaType: 1, size: 40 }),
+      generateProductItem({ productId: pizza7.id, pizzaType: 2, size: 20 }),
+      generateProductItem({ productId: pizza7.id, pizzaType: 2, size: 30 }),
+      generateProductItem({ productId: pizza7.id, pizzaType: 2, size: 40 }),
+
+      generateProductItem({ productId: pizza8.id, pizzaType: 1, size: 30 }),
+      generateProductItem({ productId: pizza8.id, pizzaType: 1, size: 40 }),
+      generateProductItem({ productId: pizza8.id, pizzaType: 2, size: 20 }),
+      generateProductItem({ productId: pizza8.id, pizzaType: 2, size: 30 }),
 
       generateProductItem({ productId: 1 }),
       generateProductItem({ productId: 2 }),
@@ -151,6 +233,70 @@ async function up() {
         connect: [{ id: 1 }, { id: 2 }, { id: 3 }],
       },
     },
+  });
+
+  await prisma.story.createMany({
+    data: [
+      {
+        previewImageUrl: '/images/stories/story1.webp',
+      },
+      {
+        previewImageUrl: '/images/stories/story2.webp',
+      },
+      {
+        previewImageUrl: '/images/stories/story3.webp',
+      },
+      {
+        previewImageUrl: '/images/stories/story4.webp',
+      },
+      {
+        previewImageUrl: '/images/stories/story5.webp',
+      },
+      {
+        previewImageUrl: '/images/stories/story6.webp',
+      },
+    ],
+  });
+
+  await prisma.storyItem.createMany({
+    data: [
+      {
+        storyId: 1,
+        sourceUrl: '/images/stories/storyItem1.webp',
+      },
+      {
+        storyId: 1,
+        sourceUrl: '/images/stories/storyItem2.webp',
+      },
+      {
+        storyId: 2,
+        sourceUrl: '/images/stories/storyItem3.webp',
+      },
+      {
+        storyId: 2,
+        sourceUrl: '/images/stories/storyItem4.webp',
+      },
+      {
+        storyId: 3,
+        sourceUrl: '/images/stories/storyItem5.webp',
+      },
+      {
+        storyId: 4,
+        sourceUrl: '/images/stories/storyItem6.webp',
+      },
+      {
+        storyId: 4,
+        sourceUrl: '/images/stories/storyItem7.webp',
+      },
+      {
+        storyId: 5,
+        sourceUrl: '/images/stories/storyItem7.webp',
+      },
+      {
+        storyId: 5,
+        sourceUrl: '/images/stories/storyItem3.webp',
+      },
+    ],
   });
 }
 
